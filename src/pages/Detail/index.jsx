@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import './index.scss';
 
 const Detail = () => {
 
   const [Detailapi, setDetailapi] = useState([])
+  const {state} = useLocation()
+
 
   useEffect(() => {
     fetchDetailapi()
   }, [])
   
   const fetchDetailapi = () => {
-    fetch(`http://localhost:3000/api/v4/products_v4/63495ed3de2df654e19617c0`)
+    fetch(`http://localhost:3000/api/v4/products_v4/${state}`)
     .then(res => res.json())
     .then(data => {
       setDetailapi(data)

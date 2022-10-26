@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import Input from '../../components/Input';
-import axios from "axios";
 import React from "react";
 import './index.scss';
 
 const Tambah = () => {
 
-  const [Tambahapi, setTambahapi] = React.useState({});
-  const [name, setName] = React.useState("");
-  const [price, setPrice] = React.useState(1000);
-	const [stock, setStock] = React.useState(0);
-	const [image, setImage] = React.useState(null);
-	const [status, setStatus] = React.useState(false);
-	const [message, setMessage] = React.useState("");
+  const [Tambahapi, setTambahapi] = useState({});
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(1000);
+	const [stock, setStock] = useState(0);
+	const [image, setImage] = useState(null);
+	const [status, setStatus] = useState(false);
+	const [message, setMessage] = useState("");
 
 
   const fetchTambahapi = async (formData) => {
@@ -56,31 +55,15 @@ const Tambah = () => {
 		formData.append("stock", stock);
 		formData.append("status", status);
 		if (image) formData.append("image", image, image.name);
-    // fetch(`http://localhost:3000/api/v4/products_v4`, {
-    //   method: "POST",
-    //   body: formData
-    // })
-    // .then(res => res.json())
-    // .then(data => {
-    //   console.log(data)
-    // }).catch(error => {
-    //   console.log(error)
-    // })
+    fetchTambahapi(formData)
 	};
 
-  // const fillUp = (products) => {
-  //   setName(products.name)
-  //   setPrice(products.price);
-	// 	setStock(products.stock);
-	// 	setStatus(products.status);
-  // }
 
   return (
     <div className="main">
       <div className="card">
         <h2>Tambah Produk</h2>
         <br />
-        {/* <form onSubmit={event => event.preventDefault()}> */}
         <Input 
             name="name"
             type="text"
@@ -119,7 +102,6 @@ const Tambah = () => {
             checked={status}/> 
 
           <button onClick={() => submitHandler()} className="btn btn-primary">Simpan</button>
-        {/* </form> */}
       </div>
     </div>
   )

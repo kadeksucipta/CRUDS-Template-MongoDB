@@ -1,38 +1,43 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Input from "../../components/Input";
 
 const Edit = () => {
 
+  const {state} = useLocation()
   const [Editapi, setEditapi] = useState([])
-  const { productsId } = useParams
-  const [name, setName] = useState("")
-  const [price, setPrice] = useState(1000);
-	const [stock, setStock] = useState(0);
+  const [name, setName] = useState(state.name)
+  const [price, setPrice] = useState(state.price);
+	const [stock, setStock] = useState(state.stock);
 	const [image, setImage] = useState(null);
-	const [status, setStatus] = useState(false);
+	const [status, setStatus] = useState(state.status);
 	const [message, setMessage] = useState("");
 
-  // useEffect(() => {
-  //   fetchEditapi()
-  // }, [])
+  useEffect(() => {
+    fetchEditapi()
+  }, [])
   
-  const fetchEditapi = () => {
-    fetch(`http://localhost:3000/api/v4/products_v4`, {
-      method:"put",
-
-    })
-    .then(res => res.json())
-    .then(data => {
-      setEditapi(data)
-    })
-  }
-
-  // const handleNamaChange = (query) => {
-  //   setNama(query)
+  // const fetchEditapi = () => {
+  //   fetch(`http://localhost:3000/api/v4/products_v4`)
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     console.log(data)
+  //     setEditapi(data)
+  //   })
   // }
 
- 
+  const fetchEditapi = async (formData) => {
+    const response = await fetch (
+      `http://localhost:3000/api/v4/products_v4/${state._id}`,
+      {
+        method: "PUT",
+        body: formData
+      }
+    );
+    const result = await response.json();
+    return result;
+  };
+
 
   const nameHandler = (event) => {
     setName(event.target.value)
@@ -61,22 +66,8 @@ const Edit = () => {
 		formData.append("stock", stock);
 		formData.append("status", status);
 		if (image) formData.append("image", image, image.name);
-		// updateProducts(productsId, formData).then((result) => {
-		// 	setMessage("Data product berhasil diubah");
-		// });
+    fetchEditapi(formData)
 	};
-
-  const fillUp = (products) => {
-    setName(products.name)
-    setPrice(products.price);
-		setStock(products.stock);
-		setStatus(products.status);
-  }
-
-
-  useEffect(() => {
-    fetchEditapi()
-  }, []);
 
   return (
     <div className="main">
@@ -100,7 +91,7 @@ const Edit = () => {
             value={price}/>
 
           <Input 
-            name="Stock"
+            name="stock"
             type="number"
             placeholder="Stock Produk..."
             label="Stock"
@@ -122,7 +113,6 @@ const Edit = () => {
 
           <button
             onClick={() => submitHandler()}
-            type="submit"
             className="btn btn-primary">Simpan
           </button>
 
@@ -132,5 +122,3 @@ const Edit = () => {
 }
 
 export default Edit;
-
-// onChange={handleNamaChange}
