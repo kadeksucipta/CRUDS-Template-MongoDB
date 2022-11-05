@@ -18,7 +18,7 @@ const Home = () => {
       console.log(data)
       setHomeapi(data)
     })
-  }
+  };
 
   const deleteHandler = (_id) => {
     fetch(`http://localhost:3000/api/v4/products_v4/${_id}`, {
