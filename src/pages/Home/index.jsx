@@ -5,13 +5,12 @@ import './index.scss';
 const Home = () => {
 
   const [Homeapi, setHomeapi] = useState([])
-  const [keyword, setKeyword] = useState("")
 
   useEffect(() => {
     fetchHomeapi()
   }, [])
   
-  const fetchHomeapi = (formData) => {
+  const fetchHomeapi = () => {
     fetch(`http://localhost:3000/api/v4/products_v4`)
     .then(res => res.json())
     .then(data => {
@@ -39,9 +38,9 @@ const Home = () => {
   return(
     <div className="main">
       <Link to="/tambah" className="btn btn-primary">Tambah Produk</Link>
-      <div className="search">
+      {/* <div className="search">
         <input type="text" placeholder="Masukan kata kunci..."/>
-      </div>
+      </div> */}
 
         <table className="table">
         <thead>
